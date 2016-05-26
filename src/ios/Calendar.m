@@ -71,7 +71,7 @@
     [myEvent addAlarm:reminder];
 
     NSError *error = nil;
-    [self.eventStore saveEvent:myEvent span:EKSpanThisEvent error:&error];
+    [self.eventStore saveEvent:myEvent span:EKSpanFutureEvents error:&error];
 
     CDVPluginResult *pluginResult = nil;
     if (error) {
@@ -239,7 +239,7 @@
 
       // Now save the new details back to the store
       NSError *error = nil;
-      [self.eventStore saveEvent:theEvent span:EKSpanThisEvent error:&error];
+      [self.eventStore saveEvent:theEvent span:EKSpanFutureEvents error:&error];
 
 
       // Check error code + return result
@@ -281,7 +281,7 @@
     NSError *error = NULL;
     for (EKEvent * event in matchingEvents) {
       // NOTE: as per issue #150 you can delete this event AND future events by passing span:EKSpanFutureEvents
-      [self.eventStore removeEvent:event span:EKSpanThisEvent error:&error];
+      [self.eventStore removeEvent:event span:EKSpanFutureEvents error:&error];
     }
 
     CDVPluginResult *pluginResult = nil;
@@ -547,7 +547,7 @@
     }
 
     NSError *error = nil;
-    [self.eventStore saveEvent:myEvent span:EKSpanThisEvent error:&error];
+    [self.eventStore saveEvent:myEvent span:EKSpanFutureEvents error:&error];
 
     if (error) {
       pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.userInfo.description];
@@ -869,7 +869,7 @@
       break;
 
     case EKEventEditViewActionSaved:
-      [controller.eventStore saveEvent:controller.event span:EKSpanThisEvent error:&error];
+      [controller.eventStore saveEvent:controller.event span:EKSpanFutureEvents error:&error];
       pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:controller.event.calendarItemIdentifier];
       break;
 
